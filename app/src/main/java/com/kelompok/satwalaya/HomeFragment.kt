@@ -21,6 +21,35 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.cardPenitipan.setOnClickListener {
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(R.id.fragmentContainer, PenitipanFragment())
+                .addToBackStack(null)
+                .commit()
+        }
+        binding.cardGrooming.setOnClickListener {
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(R.id.fragmentContainer, GroomingFragment())
+                .addToBackStack(null)
+                .commit()
+        }
+        binding.cardDokter.setOnClickListener {
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(R.id.fragmentContainer, KonsultasiFragment())
+                .addToBackStack(null)
+                .commit()
+        }
+        binding.cardVaksinasi.setOnClickListener {
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(R.id.fragmentContainer, VaksinasiFragment())
+                .addToBackStack(null)
+                .commit()
+        }
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

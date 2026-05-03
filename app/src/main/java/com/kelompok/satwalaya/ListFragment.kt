@@ -21,6 +21,30 @@ class ListFragment : Fragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.cardPenitipan.setOnClickListener {
+            navigateTo(PenitipanFragment())
+        }
+        binding.cardGrooming.setOnClickListener {
+            navigateTo(GroomingFragment())
+        }
+        binding.cardKonsultasi.setOnClickListener {
+            navigateTo(KonsultasiFragment())
+        }
+        binding.cardVaksinasi.setOnClickListener {
+            navigateTo(VaksinasiFragment())
+        }
+    }
+
+    private fun navigateTo(fragment: Fragment) {
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.fragmentContainer, fragment)
+            .addToBackStack(null)
+            .commit()
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

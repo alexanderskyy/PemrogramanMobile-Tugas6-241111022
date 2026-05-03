@@ -25,18 +25,40 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.tvProfileName.text = "Alexander"
-        binding.tvProfileEmail.text = "alexander@gmail.com"
-        binding.tvInfoName.text = "Alexander"
-        binding.tvInfoEmail.text = "alexander@gmail.com"
-        binding.tvInfoPhone.text = "+62 888-8888-8888"
+        // ✅ Ambil data dari SessionManager
+        val sessionManager = SessionManager(requireContext())
 
+        // ✅ Tampilkan data dari session (tidak hardcode lagi)
+        binding.tvProfileName.text = sessionManager.getUsername()
+        binding.tvProfileEmail.text = sessionManager.getEmail()
+        binding.tvInfoName.text = sessionManager.getUsername()
+        binding.tvInfoEmail.text = sessionManager.getEmail()
+        binding.tvInfoPhone.text = sessionManager.getPhone()
+
+        // Tombol Edit Profil
         binding.btnEditProfile.setOnClickListener {
-            Toast.makeText(requireContext(), "Fitur edit profil", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(),
+                "Fitur edit profil",
+                Toast.LENGTH_SHORT).show()
         }
 
+        // ✅ Tombol Logout dengan konfirmasi dialog
         binding.btnLogout.setOnClickListener {
-            Toast.makeText(requireContext(), "Berhasil keluar", Toast.LENGTH_SHORT).show()
+            androidx.appcompat.app.AlertDialog.Builder(requireContext())
+                .setTitle("Konfirmasi Keluar")
+                .setMessage("Apakah Anda yakin ingin keluar?")
+                .setPositiveButton("Keluar") { _, _ ->
+                    sessionManager.clearSession()
+                    val intent = android.content.Intent(
+                        requireContext(),
+                        LoginActivity::class.java
+                    )
+                    intent.flags = android.content.Intent.FLAG_ACTIVITY_NEW_TASK or
+                            android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    startActivity(intent)
+                }
+                .setNegativeButton("Batal", null)
+                .show()
         }
     }
 
